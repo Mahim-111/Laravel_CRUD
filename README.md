@@ -19,27 +19,27 @@ cd Laravel_CRUD
 
 ### 2. Connect to MySQL Database
 
-- Copy the example environment file:
-  ```bash
-  cp .env.example .env
-  ```
-- Open `.env` in a text editor and update these lines with your MySQL credentials:
-  ```
-  DB_CONNECTION=mysql
-  DB_HOST=127.0.0.1
-  DB_PORT=3306
-  DB_DATABASE=your_database_name
-  DB_USERNAME=your_database_user
-  DB_PASSWORD=your_database_password
-  ```
-- Generate an application key:
-  ```bash
-  php artisan key:generate
-  ```
-- Run migrations (after creating your database in MySQL):
-  ```bash
-  php artisan migrate
-  ```
+-   Copy the example environment file:
+    ```bash
+    cp .env.example .env
+    ```
+-   Open `.env` in a text editor and update these lines with your MySQL credentials:
+    ```
+    DB_CONNECTION=mysql
+    DB_HOST=127.0.0.1
+    DB_PORT=3306
+    DB_DATABASE=your_database_name
+    DB_USERNAME=your_database_user
+    DB_PASSWORD=your_database_password
+    ```
+-   Generate an application key:
+    ```bash
+    php artisan key:generate
+    ```
+-   Run migrations (after creating your database in MySQL):
+    ```bash
+    php artisan migrate
+    ```
 
 ---
 
@@ -50,9 +50,10 @@ To generate a model, controller, and factory, use the following command (replace
 ```bash
 php artisan make:model Book -mcf
 ```
-- `-m` creates a migration file
-- `-c` creates a controller
-- `-f` creates a factory
+
+-   `-m` creates a migration file
+-   `-c` creates a controller
+-   `-f` creates a factory
 
 Edit your migration file in `database/migrations/` to define your table schema, then run:
 
@@ -99,10 +100,12 @@ public function run(): void
     Book::factory()->count(1000)->create();
 }
 ```
+
 This will:
-- Truncate (clear) the `books` and `users` tables.
-- Create a single user with a specific name and email.
-- Create 1000 fake book records using the factory.
+
+-   Truncate (clear) the `books` and `users` tables.
+-   Create a single user with a specific name and email.
+-   Create 1000 fake book records using the factory.
 
 Run the seeder with:
 
@@ -116,111 +119,154 @@ php artisan db:seed
 
 #### List All Books (Index)
 
-- **Define the Route in `routes/web.php`:**
-  ```php
-  use App\Http\Controllers\BookController;
+-   **Define the Route in `routes/web.php`:**
 
-  Route::get('/books', [BookController::class, 'index'])->name('books.index');
-  ```
+    ```php
+    use App\Http\Controllers\BookController;
 
-- **Controller Method (`BookController.php`):**
-  ```php
-  public function index(){
-      $books = Book::paginate(10);
-      $totalBooks = Book::count();
-      return view('books.index', compact('books', 'totalBooks'));
-  }
-  ```
+    Route::get('/books', [BookController::class, 'index'])->name('books.index');
+    ```
 
-- **Blade View Example (`resources/views/books/index.blade.php`):**
-  ```blade
-  <p>Total Books: {{ $totalBooks }}</p>
+-   **Controller Method (`BookController.php`):**
 
-  <table border="1" cellpadding="5" cellspacing="0">
-    <tr>
-      <th>ID</th>
-      <th>Title</th>
-      <th>Author</th>
-      <th>ISBN</th>
-      <th>Stock</th>
-      <th>Price</th>
-      <th>Action</th>
-    </tr>
-    @foreach($books as $book)
+    ```php
+    public function index(){
+        $books = Book::paginate(10);
+        $totalBooks = Book::count();
+        return view('books.index', compact('books', 'totalBooks'));
+    }
+    ```
+
+-   **Blade View Example (`resources/views/books/index.blade.php`):**
+
+    ```blade
+    <p>Total Books: {{ $totalBooks }}</p>
+
+    <table border="1" cellpadding="5" cellspacing="0">
       <tr>
-        <td>{{ $book->id }}</td>
-        <td>{{ $book->title }}</td>
-        <td>{{ $book->author }}</td>
-        <td>{{ $book->isbn }}</td>
-        <td>{{ $book->stock }}</td>
-        <td>{{ $book->price }}</td>
-        <td>
-          <a href="{{ route('books.show', $book->id) }}">Show</a>
-        </td>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Author</th>
+        <th>ISBN</th>
+        <th>Stock</th>
+        <th>Price</th>
+        <th>Action</th>
       </tr>
-    @endforeach
-  </table>
+      @foreach($books as $book)
+        <tr>
+          <td>{{ $book->id }}</td>
+          <td>{{ $book->title }}</td>
+          <td>{{ $book->author }}</td>
+          <td>{{ $book->isbn }}</td>
+          <td>{{ $book->stock }}</td>
+          <td>{{ $book->price }}</td>
+          <td>
+            <a href="{{ route('books.show', $book->id) }}">Show</a>
+          </td>
+        </tr>
+      @endforeach
+    </table>
 
-  <!-- Pagination links -->
-  {{ $books->links() }}
-  ```
+    <!-- Pagination links -->
+    {{ $books->links() }}
+    ```
 
 ---
 
 #### Show a Single Book (Show)
 
-- **Add Route in `routes/web.php`:**
-  ```php
-  Route::get('/books/{id}', [BookController::class, 'show'])->name('books.show');
-  ```
+-   **Add Route in `routes/web.php`:**
 
-- **Controller Method (`BookController.php`):**
-  ```php
-  public function show($id)
-  {
-      $book = Book::findOrFail($id);
-      return view('books.show', compact('book'));
-  }
-  ```
+    ```php
+    Route::get('/books/{id}', [BookController::class, 'show'])->name('books.show');
+    ```
 
-- **Blade View Example (`resources/views/books/show.blade.php`):**
-  ```blade
-  <h2>Book Details</h2>
-  <ul>
-      <li><strong>ID:</strong> {{ $book->id }}</li>
-      <li><strong>Title:</strong> {{ $book->title }}</li>
-      <li><strong>Author:</strong> {{ $book->author }}</li>
-      <li><strong>ISBN:</strong> {{ $book->isbn }}</li>
-      <li><strong>Stock:</strong> {{ $book->stock }}</li>
-      <li><strong>Price:</strong> {{ $book->price }}</li>
-  </ul>
-  <a href="{{ route('books.index') }}">Back to List</a>
-  ```
+-   **Controller Method (`BookController.php`):**
+
+    ```php
+    public function show($id)
+    {
+        $book = Book::findOrFail($id);
+        return view('books.show', compact('book'));
+    }
+    ```
+
+-   **Blade View Example (`resources/views/books/show.blade.php`):**
+    ```blade
+    <h2>Book Details</h2>
+    <ul>
+        <li><strong>ID:</strong> {{ $book->id }}</li>
+        <li><strong>Title:</strong> {{ $book->title }}</li>
+        <li><strong>Author:</strong> {{ $book->author }}</li>
+        <li><strong>ISBN:</strong> {{ $book->isbn }}</li>
+        <li><strong>Stock:</strong> {{ $book->stock }}</li>
+        <li><strong>Price:</strong> {{ $book->price }}</li>
+    </ul>
+    <a href="{{ route('books.index') }}">Back to List</a>
+    ```
+
+---
+
+#### Create a New Book (Create)
+
+-   **Add Routes in `routes/web.php`:**
+
+    ```php
+    Route::get('/books/create', [BookController::class, 'create'])->name('books.create');
+    Route::post('/books', [BookController::class, 'store'])->name('books.store');
+    ```
+
+-   **Controller Methods:**
+
+    -   `create()` - Display the create form
+    -   `store(Request $request)` - Validate and save new book data
+
+-   **Model Configuration:**
+
+    -   Add fillable properties: `title`, `author`, `stock`, `isbn`, `price`
+
+-   **Create Form Features:**
+
+    -   Bootstrap styling with responsive design
+    -   Form validation with custom error messages
+    -   CSRF protection for security
+    -   ISBN validation (13 characters required)
+    -   Stock validation (non-negative integer)
+    -   Price validation (decimal values accepted)
+    -   Redirects to book details page after creation
+
+-   **Validation Rules:**
+    -   Title & Author: Required
+    -   ISBN: Required, exactly 13 characters
+    -   Stock: Required, numeric, non-negative
+    -   Price: Required, numeric
 
 ---
 
 ## Full Installation & Usage
 
 1. **Clone the repository**
-   ```bash
-   git clone https://github.com/Mahim-111/Laravel_CRUD.git
-   cd Laravel_CRUD
-   ```
+
+    ```bash
+    git clone https://github.com/Mahim-111/Laravel_CRUD.git
+    cd Laravel_CRUD
+    ```
 
 2. **Install dependencies**
-   ```bash
-   composer install
-   npm install
-   npm run dev
-   ```
+
+    ```bash
+    composer install
+    npm install
+    npm run dev
+    ```
 
 3. **Complete steps 2–6 above**
 
 4. **Start the development server**
-   ```bash
-   php artisan serve
-   ```
-   Then visit [http://localhost:8000/books](http://localhost:8000/books) in your browser.
+    ```bash
+    php artisan serve
+    ```
+    Then visit [http://localhost:8000/books](http://localhost:8000/books) in your browser.
 
 ---
 
