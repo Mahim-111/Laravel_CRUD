@@ -10,20 +10,19 @@
         <tr>
             <th>Title</th>
             <th>Author</th>
-            <th>ISBN</th>
             <th>Stock</th>
-            <th>Price</th>
+            <th>Details</th>
         </tr>
         @foreach($books as $book)
         <tr>
             <td>{{ $book->title }}</td>
             <td>{{ $book->author }}</td>
-            <td>{{ $book->isbn }}</td>
             <td>{{ $book->stock }}</td>
-            <td>{{ $book->price }}</td>
+            <td><a href="{{ route('books.show', $book->id) }}">View Details</a></td>
         </tr>
         @endforeach
     </table>
+    {{ $books->links() }}
 
 </body>
 </html>
