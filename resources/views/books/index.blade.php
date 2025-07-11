@@ -1,6 +1,9 @@
 @extends('books.layout')
 
 @section('page-content')
+    <p class="text-end">
+        <a href="{{ route('books.create') }}" class="btn btn-primary">Add New Book</a>
+    </p>
     <table class="table table-striped table-bordered">
         <tr>
             <th>Title</th>

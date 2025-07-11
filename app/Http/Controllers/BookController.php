@@ -29,4 +29,42 @@ class BookController extends Controller
         $book = Book::findOrFail($id);
         return view('books.show')->with('book', $book);
     }
+
+    public function create(){
+        return view('books.create');
+    }   
+
+    public function store(Request $request){
+    //    dd($request->all());
+        $rules = [
+            'title'=> 'required',
+            'author'=> 'required',
+            'isbn'=> 'required | size:13',
+            'stock'=> 'required |numeric | integer | gte:0',
+            'price' => 'required | numeric',
+        ];
+        $message = [
+            'stock.gte' => 'Stock must be greater than or equal to 0',
+        ];
+        $request->validate($rules, $message);
+        
+        //redirect to index page
+        // Book::create($request->all());
+        // return redirect()->route('books.index');
+       
+        //another way to create
+        // $book = new Book();
+        // $book->title = $request->title;
+        // $book->Author = $request->Author;
+        // $book->isbn = $request->isbn;
+        // $book->stock = $request->stock;
+        // $book->price = $request->price;
+        // $book->save();
+
+        //redirect to show page
+        $book = Book::create($request->all());
+        return redirect()->route('books.show', $book->id);
+    }
+
+
 }
