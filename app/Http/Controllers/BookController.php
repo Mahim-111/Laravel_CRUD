@@ -35,36 +35,26 @@ class BookController extends Controller
     }   
 
     public function store(Request $request){
-    //    dd($request->all());
         $rules = [
             'title'=> 'required',
             'author'=> 'required',
-            'isbn'=> 'required | size:13',
-            'stock'=> 'required |numeric | integer | gte:0',
-            'price' => 'required | numeric',
+            'isbn'=> 'required|size:13|unique:books,isbn',
+            'stock'=> 'required|numeric|integer|gte:0',
+            'price' => 'required|numeric',
         ];
         $message = [
             'stock.gte' => 'Stock must be greater than or equal to 0',
+            'isbn.unique' => 'This ISBN is already taken',
         ];
         $request->validate($rules, $message);
-        
-        //redirect to index page
-        // Book::create($request->all());
-        // return redirect()->route('books.index');
-       
-        //another way to create
-        // $book = new Book();
-        // $book->title = $request->title;
-        // $book->Author = $request->Author;
-        // $book->isbn = $request->isbn;
-        // $book->stock = $request->stock;
-        // $book->price = $request->price;
-        // $book->save();
 
-        //redirect to show page
         $book = Book::create($request->all());
-        return redirect()->route('books.show', $book->id);
+        return redirect()->route('books.show', $book->id)->with('success', 'Book created successfully!');
     }
-
-
+   
+    public function destroy($id){
+        $book = Book::findOrFail($id);
+        $book->delete();
+        return redirect()->route('books.index');
+    }
 }

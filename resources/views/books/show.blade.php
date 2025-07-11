@@ -1,6 +1,9 @@
 @extends('books.layout')
 @section('page-content')
-    <a href="{{ route('books.index') }}">Back</a>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <a href="{{ route('books.index') }}" class="btn btn-secondary">Back to Book List</a>
+    </div>
+        
     <h1>Details of {{ $book->title }}:</h1>
     <table class="table table-striped table-bordered">
         <tr>

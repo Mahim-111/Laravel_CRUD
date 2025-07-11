@@ -2,6 +2,15 @@
 
 A simple Laravel application demonstrating basic Create, Read, Update, and Delete (CRUD) operations. This project is designed to help developers learn and implement CRUD functionality using the Laravel PHP framework.
 
+## 🏷️ Tags
+
+![Laravel](https://img.shields.io/badge/Laravel-10.x-red?style=flat-square&logo=laravel)
+![PHP](https://img.shields.io/badge/PHP-8.2+-blue?style=flat-square&logo=php)
+![MySQL](https://img.shields.io/badge/MySQL-8.0-orange?style=flat-square&logo=mysql)
+![Bootstrap](https://img.shields.io/badge/Bootstrap-5.3-purple?style=flat-square&logo=bootstrap)
+
+**Keywords:** `Laravel` `PHP` `CRUD` `MySQL` `Bootstrap` `Web Development` `MVC` `Eloquent ORM` `Blade Templates` `Form Validation` `REST API` `Bookstore` `Database Migration` `Factory` `Seeder`
+
 ---
 
 ## Step-by-Step Instructions
@@ -237,9 +246,69 @@ php artisan db:seed
 
 -   **Validation Rules:**
     -   Title & Author: Required
-    -   ISBN: Required, exactly 13 characters
+    -   ISBN: Required, exactly 13 characters, unique
     -   Stock: Required, numeric, non-negative
     -   Price: Required, numeric
+
+---
+
+#### Edit a Book (Update)
+
+-   **Add Routes in `routes/web.php`:**
+
+    ```php
+    Route::get('/books/{id}/edit', [BookController::class, 'edit'])->name('books.edit');
+    Route::put('/books/{id}', [BookController::class, 'update'])->name('books.update');
+    ```
+
+-   **Controller Methods:**
+
+    -   `edit($id)` - Display the edit form with pre-populated data
+    -   `update(Request $request, $id)` - Validate and update book data
+
+-   **Edit Form Features:**
+
+    -   Bootstrap styling with responsive design
+    -   Pre-populated form fields with existing book data
+    -   Form validation with custom error messages
+    -   CSRF protection and PUT method for security
+    -   ISBN uniqueness validation (excluding current book)
+    -   Stock and price validation
+    -   Cancel and Update buttons for user convenience
+
+-   **Validation Rules:**
+    -   Title & Author: Required
+    -   ISBN: Required, exactly 13 characters, unique (excluding current book)
+    -   Stock: Required, numeric, non-negative
+    -   Price: Required, numeric
+
+---
+
+#### Delete a Book (Destroy)
+
+-   **Add Route in `routes/web.php`:**
+
+    ```php
+    Route::delete('/books/{id}', [BookController::class, 'destroy'])->name('books.destroy');
+    ```
+
+-   **Controller Method:**
+
+    -   `destroy($id)` - Find and delete the book, redirect to index
+
+-   **Delete Features:**
+
+    -   JavaScript confirmation dialog before deletion
+    -   Displays book title in confirmation message
+    -   DELETE method for proper REST convention
+    -   CSRF protection for security
+    -   Redirects to book list after deletion
+    -   Available on both index and show pages
+
+-   **User Experience:**
+    -   Confirmation message: "Are you sure you want to delete the book: [Book Title]?"
+    -   Prevents accidental deletions
+    -   Clear feedback on which book will be deleted
 
 ---
 
@@ -256,8 +325,6 @@ php artisan db:seed
 
     ```bash
     composer install
-    npm install
-    npm run dev
     ```
 
 3. **Complete steps 2–6 above**
@@ -274,8 +341,14 @@ php artisan db:seed
 
 Contributions are welcome! Please fork the repository and submit a pull request.
 
-## License
+---
 
-MIT License.
+## 👨‍💻 Author
+
+**Md. Mahim Babu**  
+Dept. of Computer Science and Engineering  
+University of Rajshahi  
+📧 mahimbabu111111@gmail.com  
+📱 01799884594
 
 ---
