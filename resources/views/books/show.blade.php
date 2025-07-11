@@ -1,15 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $book->title }}</title>
-</head>
-<body>
-    <a href="{{ route('books.index') }}">Back to Book List</a>
-    <h1>Book Details</h1>
-    
-    <table>
+@extends('books.layout')
+@section('page-content')
+    <a href="{{ route('books.index') }}">Back</a>
+    <h1>Details of {{ $book->title }}:</h1>
+    <table class="table table-striped table-bordered">
         <tr>
             <th>Title</th>
             <td>{{ $book->title }}</td>
@@ -31,5 +24,4 @@
             <td>${{ number_format($book->price, 2) }}</td>
         </tr>
     </table>
-</body>
-</html>
+@endsection

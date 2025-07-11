@@ -1,12 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <table>
+@extends('books.layout')
+
+@section('page-content')
+    <table class="table table-striped table-bordered">
         <tr>
             <th>Title</th>
             <th>Author</th>
@@ -18,11 +13,9 @@
             <td>{{ $book->title }}</td>
             <td>{{ $book->author }}</td>
             <td>{{ $book->stock }}</td>
-            <td><a href="{{ route('books.show', $book->id) }}">View Details</a></td>
+            <td><a href="{{ route('books.show', $book->id) }}">View</a></td>
         </tr>
         @endforeach
     </table>
     {{ $books->links() }}
-
-</body>
-</html>
+@endsection
